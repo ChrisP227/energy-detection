@@ -1,51 +1,34 @@
 import yaml
+import argparse
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-from matplotlib.axes import Axes
 
 from torchsig.datasets.datasets import StaticTorchSigDataset
-from torchsig.datasets.dataset_metadata import DatasetMetadata
-from torchsig.datasets.dataset_utils import to_dataset_metadata
 from filehandler import SpectrogramReader
 
 from torchsig.signals.signal_lists import TorchSigSignalLists
 
-def read_yaml(filepath: str) -> DatasetMetadata:
-    """
-    Reads in dataset metadata from YAML file.
-
-    Args:
-        filepath: path to dataset yaml
-    
-    Returns:
-        metadata: metadata loaded from yaml
-    """
-    # yaml loads in as a dict
-    with open(filepath, "r") as file:
-        config = yaml.safe_load(file)
-    
-    # Convert the dictionary to a DatasetMetadata object
-    metadata = to_dataset_metadata(config)
-    return metadata
-
 def main():
-    filepath = "dataset.yaml"
-    dataset_metadata = read_yaml(filepath)
-    root = "/home/paulik/school/ee-5561/project/dataset"
+    parser = argparse.ArgumentParser(description="Quick script for visualizing a dataset that was generated and written to disk with torchsig.")
+    parser.add_argument("root", type=str, help="Directory containing generated spectrograms and labels")
+    args = parser.parse_args()
+    root = args.root
+
     s = StaticTorchSigDataset(
         root=root,
         file_handler_class=SpectrogramReader
     )
+
     class_list = TorchSigSignalLists.all_signals
-    for i in range(len(s)):
+    for i in range(5):
         data, labels = s[i]
         height, width = data.shape
         fig = plt.figure(figsize=(12,6))
         fig.tight_layout()
 
         ax = fig.add_subplot(1,1,1)
-        pos = ax.imshow(data,aspect='auto',cmap='Wistia',vmin=dataset_metadata.noise_power_db)
+        pos = ax.imshow(data,aspect='auto',cmap='Wistia')
 
         fig.colorbar(pos, ax=ax)
 

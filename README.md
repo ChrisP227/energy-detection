@@ -14,3 +14,9 @@ Generate dataset:
 chmod +x generate_data.sh
 ./generate_data.sh
 ```
+
+Visualize dataset:
+```
+chmod +x visualize_data.sh
+./visualize_data.sh
+```
