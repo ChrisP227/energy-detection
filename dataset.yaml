@@ -8,10 +8,10 @@ required:
 
 overrides:
   sample_rate: 100000000 # 100 MHz
-  num_signals_min: 1
+  num_signals_min: 0
   num_signals_max: 5
   num_signals_distribution: null
-  snr_db_min: 20.0
+  snr_db_min: 0.0
   snr_db_max: 50.0
   signal_duration_min: 0.000131072 # 0.05*num_iq_samples_dataset/sample_rate = 0.13 ms
   signal_duration_max: 0.000262144 # 0.10*num_iq_samples_dataset/sample_rate = 0.26 ms
